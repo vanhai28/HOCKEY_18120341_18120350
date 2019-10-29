@@ -1,5 +1,5 @@
 #pragma once
-
+#include <SDL_mixer.h>
 #include "BaseObject.h"
 const int  X_PLAYER_1 = RIGHT_BOUNDARY / 2;
 const int  Y_PLAYER_1 = 20;
