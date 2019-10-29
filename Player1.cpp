@@ -29,10 +29,10 @@ void Player1::HandleInputAction(SDL_Event events)
 		switch (events.key.keysym.sym)
 		{
 		case SDLK_q:
-			x_val -= HEIGHT_Player_1 / 5;
+			x_val -= HEIGHT_Player_1 / 3;
 			break;
 		case SDLK_e:
-			x_val += HEIGHT_Player_1 / 5;;
+			x_val += HEIGHT_Player_1 / 3;;
 			break;
 		default:
 			break;
