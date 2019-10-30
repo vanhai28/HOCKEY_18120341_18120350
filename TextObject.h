@@ -11,16 +11,13 @@ public:
 	};
 	TextObject();
 	~TextObject();
-
+	
 	void SetText(const std::string text) { str_val_ = text; }
 	void SetColor(const int &type);
 	void creatText(TTF_Font *font, SDL_Surface* des);
 
-
-
 private:
 	std::string str_val_;
 	SDL_Color text_color;
-
 };
 
