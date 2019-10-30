@@ -22,8 +22,8 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 			win = Mix_LoadWAV("winSound.wav");
 			Mix_PlayChannel(-1, win, 0);
 		}
-		else if ((y <= playerTop.y + HEIGHT_Player_1 && playerTop.y + HEIGHT_Player_1 / 2 < y && ((x + WIDTH_BALL / 2 <= playerTop.x && playerTop.x < x + WIDTH_BALL && x_val > 0) || (x <= playerTop.x + WIDTH_Player_1 && playerTop.x + WIDTH_Player_1 <= x + WIDTH_BALL / 2 && x_val < 0))
-			|| (y + HEIGHT_BALL >= playerButtom.y && playerButtom.y > y + HEIGHT_BALL / 2 && ((x + WIDTH_BALL / 2 <= playerButtom.x && playerButtom.x < x + WIDTH_BALL && x_val > 0) || (x <= playerButtom.x + WIDTH_Player_1 && playerButtom.x + WIDTH_Player_1 <= x + WIDTH_BALL / 2 && x_val < 0)))))
+		else if ((y <= playerTop.y + HEIGHT_PLAYER && playerTop.y + HEIGHT_PLAYER / 2 < y && ((x + WIDTH_BALL / 2 <= playerTop.x && playerTop.x < x + WIDTH_BALL && x_val > 0) || (x <= playerTop.x + WIDTH_PLAYER && playerTop.x + WIDTH_PLAYER <= x + WIDTH_BALL / 2 && x_val < 0))
+			|| (y + HEIGHT_BALL >= playerButtom.y && playerButtom.y > y + HEIGHT_BALL / 2 && ((x + WIDTH_BALL / 2 <= playerButtom.x && playerButtom.x < x + WIDTH_BALL && x_val > 0) || (x <= playerButtom.x + WIDTH_PLAYER && playerButtom.x + WIDTH_PLAYER <= x + WIDTH_BALL / 2 && x_val < 0)))))
 		{
 			rect_.x -= x_val;
 			rect_.y -= x_val;
@@ -32,8 +32,8 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 			Mix_PlayChannel(-1, bullet_sound, 0);
 		}
 		//dinh hai ben thanh truot
-		else if ((y < playerTop.y + HEIGHT_Player_1 && ((x + WIDTH_BALL >= playerTop.x && playerTop.x >= x + WIDTH_BALL - 3 && x_val > 0) || (x + 3 >= playerTop.x + WIDTH_Player_1 && playerTop.x + WIDTH_Player_1 >= x && x_val < 0))
-			|| (y + HEIGHT_BALL > playerButtom.y && ((x + WIDTH_BALL >= playerButtom.x && playerButtom.x >= x + WIDTH_BALL - 3 && x_val > 0) || (x + 3 >= playerButtom.x + WIDTH_Player_1 && playerButtom.x + WIDTH_Player_1 > x && x_val < 0)))))
+		else if ((y < playerTop.y + HEIGHT_PLAYER && ((x + WIDTH_BALL >= playerTop.x && playerTop.x >= x + WIDTH_BALL - 3 && x_val > 0) || (x + 3 >= playerTop.x + WIDTH_PLAYER && playerTop.x + WIDTH_PLAYER >= x && x_val < 0))
+			|| (y + HEIGHT_BALL > playerButtom.y && ((x + WIDTH_BALL >= playerButtom.x && playerButtom.x >= x + WIDTH_BALL - 3 && x_val > 0) || (x + 3 >= playerButtom.x + WIDTH_PLAYER && playerButtom.x + WIDTH_PLAYER > x && x_val < 0)))))
 		{
 			if (x + WIDTH_BALL > RIGHT_BOUNDARY || x <= LEFT_BOUNDARY)
 			{
@@ -49,8 +49,8 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 			}
 			Mix_PlayChannel(-1, bullet_sound, 0);
 		}
-		else if ((y < playerTop.y + HEIGHT_Player_1 && x + WIDTH_BALL - 2 >= playerTop.x && playerTop.x + WIDTH_Player_1 > x + 2 && y_val < 0)
-			|| (y + HEIGHT_BALL > playerButtom.y && x + WIDTH_BALL - 2 >= playerButtom.x && playerButtom.x + WIDTH_Player_1 > x + 2 && y_val > 0))
+		else if ((y < playerTop.y + HEIGHT_PLAYER && x + WIDTH_BALL - 2 >= playerTop.x && playerTop.x + WIDTH_PLAYER > x + 2 && y_val < 0)
+			|| (y + HEIGHT_BALL > playerButtom.y && x + WIDTH_BALL - 2 >= playerButtom.x && playerButtom.x + WIDTH_PLAYER > x + 2 && y_val > 0))
 		{
 			rect_.x = x;
 			y_val *= -1;
@@ -94,7 +94,7 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 
 Ball::Ball()
 {
-
+	is_move = false;
 	x_val = 2;
 	y_val = 2;
 	rect_.x = 0;
