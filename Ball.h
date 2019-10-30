@@ -1,10 +1,8 @@
 #pragma once
 
-#include "BaseObject.h"
-#include "Player1.h"
-#include "Player2.h"
-#include "CommonFunction.h"
+#include "Player.h"
 #include <SDL_mixer.h>
+
 #define WIDTH_BALL 40
 #define HEIGHT_BALL 31
 #define MAX_SPEED 10
@@ -25,9 +23,13 @@ public:
 	int Get_y_val() { return y_val; }
 	void Set_y_val(int val) { y_val = val; }
 
+	bool Get_is_move() { return is_move; }
+	void Set_is_move(bool val) { is_move = val; }
+
 	Ball();
 	~Ball();
 private :
+	bool is_move;
 	int x_val;
 	int y_val;
 };
