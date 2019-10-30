@@ -1,12 +1,8 @@
 #pragma once
 #include <SDL_mixer.h>
-#include "BaseObject.h"
-const int  X_PLAYER_1 = RIGHT_BOUNDARY / 2;
-const int  Y_PLAYER_1 = 20;
+#include "PLAYER.h"
 
-#define WIDTH_Player_1 88
-#define HEIGHT_Player_1 30
-class Player1 : public BaseObject
+class Player1 : public PLAYER
 {
 public:
 	Player1();
@@ -14,6 +10,7 @@ public:
 
 	void HandleInputAction(SDL_Event events);
 	void  HandleMove();
+	void PredictDropPoint(SDL_Rect a, int b, int c) {};
 	bool Get_is_move() {return is_move;}
 	void Set_is_move(bool val) { is_move = val; }
 
