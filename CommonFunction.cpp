@@ -1,4 +1,4 @@
-
+﻿
 #include "CommonFunction.h"
 #include"TextObject.h"
 
@@ -17,9 +17,10 @@ SDL_Rect SDL_CFunction::ApplySurface(SDL_Surface* scr, SDL_Surface* des, int x, 
 
 	return offset;
 }
+//description: kiểm tra tọa độ.
 bool SDL_CFunction::CheckFocusWithRect(const int &x, const int &y, const SDL_Rect& rect)
 {
-	if (x >= rect.x&&x <= rect.x + rect.w&&y >= rect.y&&y <= rect.y + rect.h)
+	if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h)
 	{
 		return true;
 	}
@@ -45,28 +46,40 @@ SDL_Surface*  SDL_CFunction::LoadImage(std::string file_path) {
 
 	return optimize_image;
 }
+
+//description: vẽ menu và lựa chọn cách chơi game.
 int SDL_CFunction::ShowMenu(SDL_Surface *des, TTF_Font * font)
 {
-	g_img_menu = LoadImage("Bkground.png");
-
-	if (g_img_menu == NULL)
+	g_img_menu = LoadImage("menu.png");
+	
+	if (g_img_menu == NULL)	//kiểm tra có ảnh menu hay không.
 	{
 		return 1;
 	}
 
-	const int kMenuItemNum = 2;
+	const int kMenuItemNum = 3;
+	//tạo mảng để lưu 3 tọa độ của 3 chức năng cần sử dụng.
 	SDL_Rect pos_Arr[kMenuItemNum];
+	//chơi 1 vs 1.
 	pos_Arr[0].x = 100;
-	pos_Arr[0].y = 400;
-
+	pos_Arr[0].y = 300;
+	//chơi 1 vs may.
 	pos_Arr[1].x = 100;
-	pos_Arr[1].y = 450;
+	pos_Arr[1].y = 500;
+	//thoát game.
+	pos_Arr[2].x = 100;
+	pos_Arr[2].y = 400;
 
 	TextObject text_menu[kMenuItemNum];
 
-	text_menu[0].SetText("Play Game");
+	//vẽ các yêu cầu lên menu.png.
+	text_menu[0].SetText("Play Game: 1 vs 1");
 	text_menu[0].SetColor(TextObject::BLACK_TEXT);
 	text_menu[0].SetRect(pos_Arr[0].x, pos_Arr[0].y);
+
+	text_menu[2].SetText("Play Game: 1 vs may");
+	text_menu[2].SetColor(TextObject::BLACK_TEXT);
+	text_menu[2].SetRect(pos_Arr[2].x, pos_Arr[2].y);
 
 	text_menu[1].SetText("EXIT GAME");
 	text_menu[1].SetColor(TextObject::BLACK_TEXT);
@@ -80,7 +93,7 @@ int SDL_CFunction::ShowMenu(SDL_Surface *des, TTF_Font * font)
 	while (true)
 	{
 		SDL_CFunction::ApplySurface(g_img_menu, des, 0, 0);
-		for (int i = 0; i < kMenuItemNum; i++)
+		for (int i = 0; i < kMenuItemNum; ++i)
 		{
 			text_menu[i].creatText(font, des);
 		}
@@ -94,13 +107,12 @@ int SDL_CFunction::ShowMenu(SDL_Surface *des, TTF_Font * font)
 			case SDL_MOUSEMOTION:
 			{
 				xm = m_event.motion.x;
-				xm = m_event.motion.y;
+				ym = m_event.motion.y;
 
 				for (int i = 0; i < kMenuItemNum; i++)
 				{
-
-					if (CheckFocusWithRect(xm, ym, text_menu[i].GetRect()))
-					{
+					if (CheckFocusWithRect(xm, ym, text_menu[i].GetRect()))		//nêu con trỏ chuột nằm trong vi trí 
+					{															//của các yêu cầu thì các yêu cầu chuyển sang mau đỏ
 						if (selected[i] == false)
 						{
 							selected[i] = 1;
@@ -127,8 +139,8 @@ int SDL_CFunction::ShowMenu(SDL_Surface *des, TTF_Font * font)
 				{
 					if (CheckFocusWithRect(xm, ym, text_menu[i].GetRect()))
 					{
-						return i;
-					}
+						return i;		// return 0 là chơi với người, return 1 là chơi với máy
+					}					// return 2 là exit;
 				}
 			}
 			break;
@@ -141,11 +153,8 @@ int SDL_CFunction::ShowMenu(SDL_Surface *des, TTF_Font * font)
 				break;
 			}
 		}
-		if (SDL_Flip(des) == -1) {
-			return 0;
-		}
+		SDL_Flip(des);
 	}
-
 
 	return 1;
 }
