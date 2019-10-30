@@ -9,8 +9,8 @@ Player1::Player1()
 	y_val = 0;
 	rect_.x = 0;
 	rect_.y = 0;
-	rect_.w = HEIGHT_Player_1;
-	rect_.h = HEIGHT_Player_1;
+	rect_.w = HEIGHT_PLAYER;
+	rect_.h = HEIGHT_PLAYER;
 }
 
 
@@ -30,10 +30,10 @@ void Player1::HandleInputAction(SDL_Event events)
 		switch (events.key.keysym.sym)
 		{
 		case SDLK_q:
-			x_val -= HEIGHT_Player_1 / 3;
+			x_val -= HEIGHT_PLAYER / 3;
 			break;
 		case SDLK_e:
-			x_val += HEIGHT_Player_1 / 3;;
+			x_val += HEIGHT_PLAYER / 3;;
 			break;
 		default:
 			break;
@@ -52,7 +52,7 @@ void Player1::HandleMove()
 	{
 		rect_.x += x_val;
 
-		if (rect_.x + WIDTH_Player_1 > RIGHT_BOUNDARY || rect_.x < 0) {
+		if (rect_.x + WIDTH_PLAYER > RIGHT_BOUNDARY || rect_.x < 0) {
 			rect_.x -= x_val;
 		}
 	}
