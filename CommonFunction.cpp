@@ -1,6 +1,5 @@
 ﻿
 #include "CommonFunction.h"
-#include <iostream>
 #include"TextObject.h"
 /*
  * Function:
@@ -147,7 +146,7 @@ int SDL_CFunction::ShowMenu(SDL_Surface *des, TTF_Font * font)
 			{
 				xm = m_event.motion.x;
 				ym = m_event.motion.y;
-				std::cout <<"x =  "<<xm<<"  y =  "<< ym;
+				
 				for (int i = 0; i < kMenuItemNum; i++)
 				{
 					//text_menu[i].SetColor(TextObject::RED_TEXT);
