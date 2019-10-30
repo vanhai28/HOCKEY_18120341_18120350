@@ -9,8 +9,8 @@ Player2::Player2()
 	y_val = 0;
 	rect_.x = 0;
 	rect_.y = 0;
-	rect_.w = HEIGHT_Player_1;
-	rect_.h = HEIGHT_Player_1;
+	rect_.w = HEIGHT_PLAYER;
+	rect_.h = HEIGHT_PLAYER;
 }
 
 void Player2::HandleInputAction(SDL_Event events)
@@ -20,10 +20,10 @@ void Player2::HandleInputAction(SDL_Event events)
 		switch (events.key.keysym.sym)
 		{
 		case SDLK_LEFT:
-			x_val -= HEIGHT_Player_1 / 3;
+			x_val -= HEIGHT_PLAYER / 3;
 			break;
 		case SDLK_RIGHT:
-			x_val += HEIGHT_Player_1 / 3;;
+			x_val += HEIGHT_PLAYER / 3;;
 			break;
 		default:
 			break;
@@ -48,7 +48,7 @@ void Player2::HandleMove()
 	{
 		rect_.x += x_val;
 
-		if (rect_.x + WIDTH_Player_1 > RIGHT_BOUNDARY || rect_.x < 0) {
+		if (rect_.x + WIDTH_PLAYER > RIGHT_BOUNDARY || rect_.x < 0) {
 			rect_.x -= x_val;
 		}
 	}
