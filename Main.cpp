@@ -20,7 +20,12 @@ BaseObject win1, win2;
 SDL_Event g_event1, g_event2;
 Player1 player1;
 Player2 player2;
+
 AutoPlayer autoPlayer;
+
+PLAYER * player = &autoPlayer;
+
+
 Ball ball;
 bool is_finish_game = false;
 int winner = 0;
@@ -50,6 +55,10 @@ int main()
 	if (ret_menu == 2)
 	{
 		is_quit = true;
+	}
+	if (ret_menu == 0)
+	{
+		player = &player1;
 	}
 	SDL_Thread* thread0;
 
@@ -89,11 +98,11 @@ int main()
 			}
 
 			player2.HandleInputAction(g_event);
-			player1.HandleInputAction(g_event);
+			player->HandleInputAction(g_event);
 		}
-
-		player1.HandleMove();
-		player1.show(g_screen);
+		player->PredictDropPoint(ball.GetRect(), ball.Get_x_val(), ball.Get_y_val());
+		player->HandleMove();
+		player->show(g_screen);
 
 		player2.HandleMove();
 		player2.show(g_screen);
@@ -198,7 +207,7 @@ bool startGame()
 	if (checkLoadImg == false) {
 		return false;
 	}
-	autoPlayer.SetRect(X_PLAYER_2, Y_PLAYER_2);
+	autoPlayer.SetRect(X_PLAYER_1, Y_PLAYER_1);
 
 	checkLoadImg = autoPlayer.LoadImg("player1.png");
 
@@ -273,7 +282,7 @@ int ThreadGame(void *a)
 	while (!is_quit)
 	{
 		SDL_Delay(20);
-		ball.HandleMove(player1.GetRect(), player2.GetRect(), is_finish_game, winner, g_sound_player1);
+		ball.HandleMove(player->GetRect(), player2.GetRect(), is_finish_game, winner, g_sound_player1);
 	}
 	return 0;
 }
