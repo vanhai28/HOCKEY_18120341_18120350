@@ -96,12 +96,7 @@ int ShowMenu(SDL_Surface *des, TTF_Font * font)
 			{
 				for (int i = 0; i < kMenuItemNum; i++)
 				{
-					isClick = button[i].SetColorButton(m_event, des);
-
-					if (isClick)
-					{
-						return i;
-					}
+					button[i].UpdateColorButton(m_event, des);
 				}
 				break;
 			}
@@ -110,7 +105,9 @@ int ShowMenu(SDL_Surface *des, TTF_Font * font)
 			{
 				for (int i = 0; i < kMenuItemNum; i++)
 				{
-					if (button[i].CheckFocusWithRect(m_event.button.x, m_event.button.y, button[i].GetRect()))
+					isClick = button[i].CheckFocusWithRect(m_event.button.x, m_event.button.y, button[i].GetRect());
+
+					if (isClick)
 					{
 						return i;
 					}
