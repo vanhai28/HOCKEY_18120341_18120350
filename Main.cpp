@@ -16,7 +16,7 @@ BaseObject win1, win2;
 SDL_Event g_event1, g_event2;
 Player1 player1;
 Player2 player2;
-
+Button back_button;
 AutoPlayer autoPlayer;
 
 PLAYER * player = &autoPlayer;
@@ -59,39 +59,79 @@ int main()
 		player = &player1;
 	}
 	SDL_Thread* thread0;
-
+	bool isClick = false;
 	int * value = NULL;
 	thread0 = SDL_CreateThread(ThreadGame, NULL);
 	ball.Set_is_move(true);
+
 	while (!is_quit)
 	{
-	
-
 		if (Mix_PlayingMusic() == 0)
 		{
 			//Play the music
 			Mix_PlayMusic(music, -1);
 		}
 
-
 		SDL_CFunction::ApplySurface(g_bkground, g_screen, 0, 0);
+		back_button.creatText(g_font_text, g_screen);
 
 		while (SDL_PollEvent(&g_event))
 		{
-			if (g_event.type == SDL_QUIT) {
-				is_quit = true;
-				break;
-			}
-
-			if (g_event.type == SDL_KEYDOWN)
+			switch (g_event.type)
 			{
-				switch (g_event.key.keysym.sym)
-					{
-					case SDLK_SPACE:
+				case SDL_MOUSEMOTION:
+				{
+					cout << g_event.motion.x << "   ";
+					back_button.UpdateColorButton(g_event, g_screen);
+					break;
+				}
+				case SDL_MOUSEBUTTONDOWN:
+				{
+					isClick = back_button.CheckFocusWithRect(g_event.button.x, g_event.button.y, back_button.GetRect());
+
+					if (isClick)
 					{
 						ball.Set_is_move(false);
-						pause_game(g_screen);
-					
+
+						int mode_play = ShowMenu(g_screen, g_font_text);
+
+						if (ret_menu == mode_play)
+						{
+							// continue game
+						}
+						else if (mode_play == 2)
+						{
+							is_quit = true;
+						}
+						else if (mode_play == 0) {
+							ret_menu = mode_play;
+							player = &player1;
+							restartGame();
+						}
+						else {
+							ret_menu = mode_play;
+							player = &autoPlayer;
+							restartGame();
+						}
+
+						ball.Set_is_move(true);
+					}
+					break;
+				}
+				case SDL_QUIT:
+				{
+					is_quit = true;
+					break;
+				}
+				case SDL_KEYDOWN:
+				{
+					switch (g_event.key.keysym.sym)
+					{
+						case SDLK_SPACE:
+						{
+							ball.Set_is_move(false);
+							pause_game(g_screen);
+						}
 					}
 				}
 			}
@@ -99,6 +139,7 @@ int main()
 			player2.HandleInputAction(g_event);
 			player->HandleInputAction(g_event);
 		}
+
 		player->PredictDropPoint(ball.GetRect(), ball.Get_x_val(), ball.Get_y_val());
 		player->HandleMove();
 		player->show(g_screen);
@@ -127,6 +168,7 @@ int main()
 	Mix_FreeChunk(win);
 	Mix_FreeMusic(music);
 	Mix_Quit();
+
 	return 0;
 }
 
@@ -175,6 +217,7 @@ bool startGame()
 {
 	bool checkLoadImg = false;
 	win1.SetRect(100, 100);
+
 	checkLoadImg = win1.LoadImg("player1win.png");
 	if (checkLoadImg == false) {
 		return false;
@@ -224,6 +267,8 @@ bool startGame()
 		return false;
 	}
 
+	back_button.SetRect(600, 600,200,60);
+	back_button.SetText("Back");
 
 	return true;
 }
