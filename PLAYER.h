@@ -1,11 +1,11 @@
 #pragma once
 #include "BaseObject.h"
 
-const int  X_PLAYER_1 = RIGHT_BOUNDARY / 2;
-const int  Y_PLAYER_1 = 20;
+const int  X_PLAYER = RIGHT_BOUNDARY / 2;
+const int  Y_PLAYER = 20;
 
-#define WIDTH_Player_1 88
-#define HEIGHT_Player_1 30
+#define WIDTH_PLAYER 88
+#define HEIGHT_PLAYER 30
 class PLAYER :public BaseObject
 {
 public:
