@@ -24,6 +24,7 @@ Player1::~Player1()
 
 void Player1::HandleInputAction(SDL_Event events)
 {
+	
 	if (events.type == SDL_KEYDOWN) 
 	{
 		switch (events.key.keysym.sym)
