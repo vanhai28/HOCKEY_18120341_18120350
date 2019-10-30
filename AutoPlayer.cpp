@@ -5,7 +5,7 @@
 AutoPlayer::AutoPlayer()
 {
 	is_move = false;
-	x_val = X_PLAYER_MOVE;
+	x_val = 5;
 	rect_.x = X_PLAYER_1;
 	rect_.y = Y_PLAYER_1;
 	rect_.w = HEIGHT_Player_1;
@@ -19,6 +19,10 @@ AutoPlayer::~AutoPlayer()
 
 void AutoPlayer::PredictDropPoint(SDL_Rect ball, int x_val_ball, int y_val_ball)
 {
+	if (is_move || ball.y > SCREEN_HEIGHT / 2 || y_val_ball > 0)
+	{
+		return;
+	}
 	int x = ball.x;
 	int y = ball.y;
 
@@ -41,13 +45,8 @@ void AutoPlayer::PredictDropPoint(SDL_Rect ball, int x_val_ball, int y_val_ball)
 	x_des = x;
 }
 
-void AutoPlayer::HandleMove(SDL_Rect ball, int x_val_ball, int y_val_ball)
+void AutoPlayer::HandleMove()
 {
-	if ( !is_move && ball.y <= SCREEN_HEIGHT / 2 && y_val_ball < 0)
-	{
-		PredictDropPoint(ball, x_val_ball, y_val_ball);
-	}
-
 	if (is_move && !(rect_.x <= x_des && x_des < rect_.x + WIDTH_Player_1))
 	{
 		if (rect_.x <= x_des)
