@@ -9,7 +9,7 @@
 #include "Ball.h"
 #include "TextObject.h"
 #include <SDL_mixer.h>
-
+#include "AutoPlayer.h"
 #undef main
 using namespace std;
 
@@ -20,6 +20,7 @@ BaseObject win1, win2;
 SDL_Event g_event1, g_event2;
 Player1 player1;
 Player2 player2;
+AutoPlayer autoPlayer;
 Ball ball;
 bool is_finish_game = false;
 int winner = 0;
@@ -30,12 +31,12 @@ bool startGame();
 void pause_game(SDL_Surface*& screen);
 void restartGame(); 
 void ExitGame();
-
+int ThreadGame(void * a); 
 Mix_Music *music = NULL;
 
 int main()
 {
-	
+
 	if (Init() == false) {
 		return 0;
 	}
@@ -44,18 +45,16 @@ int main()
 	{
 		return 0;
 	}
-	TextObject text_object;
-	text_object.SetRect(400, 400);
-	text_object.SetColor(TextObject::BLACK_TEXT);
-	text_object.SetText("in cho vui");
-	text_object.creatText(g_font_text, g_screen);
 	int ret_menu = SDL_CFunction::ShowMenu(g_screen, g_font_text);
 
-	if (ret_menu == 1)
+	if (ret_menu == 2)
 	{
 		is_quit = true;
 	}
+	SDL_Thread* thread0;
 
+	int * value = NULL;
+	thread0 = SDL_CreateThread(ThreadGame, NULL);
 	while (!is_quit)
 	{
 		
@@ -66,7 +65,7 @@ int main()
 		}
 
 		SDL_CFunction::ApplySurface(g_bkground, g_screen, 0, 0);
-		//Mix_PlayChannel(-1, g_sound_player1, 0);
+
 		while (SDL_PollEvent(&g_event))
 		{
 			if (g_event.type == SDL_QUIT) {
@@ -99,7 +98,7 @@ int main()
 		player2.HandleMove();
 		player2.show(g_screen);
 
-		ball.HandleMove(player1.GetRect(), player2.GetRect(), is_finish_game, winner,g_sound_player1);
+		
 		ball.show(g_screen);
 	
 		if(is_finish_game)
@@ -112,6 +111,8 @@ int main()
 			return 0;
 		}
 	}
+
+	SDL_WaitThread(thread0, value);
 	ExitGame();
 	
 	Mix_FreeChunk(g_sound_player1);
@@ -123,7 +124,7 @@ int main()
 
 bool Init()
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING|| SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1) {
+	if (SDL_Init(SDL_INIT_EVERYTHING|| SDL_INIT_VIDEO | SDL_INIT_AUDIO) <0 ) {
 		cerr << "SDL_Init() Failed: " <<
 			SDL_GetError() << endl;
 		return false;
@@ -164,36 +165,44 @@ bool Init()
 
 bool startGame()
 {
+	bool checkLoadImg = false;
 	win1.SetRect(100, 100);
-	bool load = win1.LoadImg("player1win.png");
-	if (load == false) {
+	checkLoadImg = win1.LoadImg("player1win.png");
+	if (checkLoadImg == false) {
 		return false;
 	}
 	win2.SetRect(100, 100);
-	load = win2.LoadImg("player2win.png");
-	if (load == false) {
+	checkLoadImg = win2.LoadImg("player2win.png");
+	if (checkLoadImg == false) {
 		return false;
 	}
 
 	ball.SetRect(400, 300);
-	bool loadImage_ball = ball.LoadImg("Ball.png");
+	checkLoadImg = ball.LoadImg("Ball.png");
 
-	if (loadImage_ball == false) {
+	if (checkLoadImg == false) {
 		return false;
 	}
 
 	player1.SetRect(X_PLAYER_1, Y_PLAYER_1);
-	bool loadImage = player1.LoadImg("player1.png");
+	checkLoadImg = player1.LoadImg("player1.png");
 
-	if (loadImage == false) {
+	if (checkLoadImg == false) {
 		return false;
 	}
 
 	player2.SetRect(X_PLAYER_2, Y_PLAYER_2);
 
-	bool loadImage2 = player2.LoadImg("player1.png");
+	checkLoadImg = player2.LoadImg("player1.png");
 
-	if (loadImage2 == false) {
+	if (checkLoadImg == false) {
+		return false;
+	}
+	autoPlayer.SetRect(X_PLAYER_2, Y_PLAYER_2);
+
+	checkLoadImg = autoPlayer.LoadImg("player1.png");
+
+	if (checkLoadImg == false) {
 		return false;
 	}
 
@@ -258,7 +267,16 @@ void restartGame()
 	ball.Set_x_val(3);
 	ball.Set_y_val(3);
 }
+int ThreadGame(void *a)
+{
 
+	while (!is_quit)
+	{
+		SDL_Delay(20);
+		ball.HandleMove(player1.GetRect(), player2.GetRect(), is_finish_game, winner, g_sound_player1);
+	}
+	return 0;
+}
 void ExitGame()
 {
 	SDL_CFunction::CleanUp();
