@@ -8,11 +8,12 @@ public:
 	BaseObject();
 	~BaseObject();
 
+
 	bool LoadImg(const char* file_name);
 	void show(SDL_Surface* des);
 
 	SDL_Rect GetRect() { return rect_; };
-	void SetRect(const int x, const int y) { rect_.x = x; rect_.y = y; }
+	void SetRect( int x,  int y, int w = 0, int h = 0) { rect_.x = x; rect_.y = y; rect_.w = w; rect_.h = h; }
 	SDL_Surface* GetObject() { return  p_object_; }
 
 protected:
