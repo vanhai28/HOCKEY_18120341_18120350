@@ -1,15 +1,11 @@
 
-#include <SDL.h>
-#include "CommonFunction.h"
-#include <SDL_ttf.h>
 #include <iostream>
-#include "BaseObject.h"
 #include "Player1.h"
 #include "Player2.h"
-#include "Ball.h"
-#include "TextObject.h"
-#include <SDL_mixer.h>
 #include "AutoPlayer.h"
+#include "Ball.h"
+#include "GameFunction.h"
+
 #undef main
 using namespace std;
 
@@ -39,8 +35,10 @@ void ExitGame();
 int ThreadGame(void * a); 
 Mix_Music *music = NULL;
 
+
 int main()
 {
+	
 
 	if (Init() == false) {
 		return 0;
@@ -50,7 +48,7 @@ int main()
 	{
 		return 0;
 	}
-	int ret_menu = SDL_CFunction::ShowMenu(g_screen, g_font_text);
+	int ret_menu = ShowMenu(g_screen, g_font_text);
 
 	if (ret_menu == 2)
 	{
@@ -64,14 +62,17 @@ int main()
 
 	int * value = NULL;
 	thread0 = SDL_CreateThread(ThreadGame, NULL);
+	ball.Set_is_move(true);
 	while (!is_quit)
 	{
-		
+	
+
 		if (Mix_PlayingMusic() == 0)
 		{
 			//Play the music
 			Mix_PlayMusic(music, -1);
 		}
+
 
 		SDL_CFunction::ApplySurface(g_bkground, g_screen, 0, 0);
 
@@ -88,11 +89,9 @@ int main()
 					{
 					case SDLK_SPACE:
 					{
+						ball.Set_is_move(false);
 						pause_game(g_screen);
-					}
-					case SDLK_n:
-					{
-						
+					
 					}
 				}
 			}
@@ -123,7 +122,7 @@ int main()
 
 	SDL_WaitThread(thread0, value);
 	ExitGame();
-	
+	TTF_CloseFont(g_font_text);
 	Mix_FreeChunk(g_sound_player1);
 	Mix_FreeChunk(win);
 	Mix_FreeMusic(music);
@@ -193,7 +192,7 @@ bool startGame()
 		return false;
 	}
 
-	player1.SetRect(X_PLAYER_1, Y_PLAYER_1);
+	player1.SetRect(X_PLAYER, Y_PLAYER);
 	checkLoadImg = player1.LoadImg("player1.png");
 
 	if (checkLoadImg == false) {
@@ -207,7 +206,7 @@ bool startGame()
 	if (checkLoadImg == false) {
 		return false;
 	}
-	autoPlayer.SetRect(X_PLAYER_1, Y_PLAYER_1);
+	autoPlayer.SetRect(X_PLAYER, Y_PLAYER);
 
 	checkLoadImg = autoPlayer.LoadImg("player1.png");
 
@@ -224,6 +223,8 @@ bool startGame()
 	{
 		return false;
 	}
+
+
 	return true;
 }
 
@@ -243,7 +244,13 @@ void pause_game(SDL_Surface*& screen)
 					{
 					case SDLK_SPACE:
 					{
-						exit(1);
+						ball.Set_is_move(true);
+						return ;
+					}
+					case SDLK_ESCAPE :
+					{
+						is_quit = true;
+						return ;
 					}
 					default:
 					{
@@ -271,18 +278,20 @@ void showWinner(SDL_Surface*& screen)
 void restartGame()
 {
 	player2.SetRect(X_PLAYER_2, Y_PLAYER_2);
-	player1.SetRect(X_PLAYER_1, Y_PLAYER_1);
+	player1.SetRect(X_PLAYER, Y_PLAYER);
 	ball.SetRect(400, 300);
 	ball.Set_x_val(3);
 	ball.Set_y_val(3);
 }
 int ThreadGame(void *a)
 {
-
-	while (!is_quit)
+	while (!is_quit )
 	{
-		SDL_Delay(20);
-		ball.HandleMove(player->GetRect(), player2.GetRect(), is_finish_game, winner, g_sound_player1);
+		if (ball.Get_is_move())
+		{
+			SDL_Delay(20);
+			ball.HandleMove(player->GetRect(), player2.GetRect(), is_finish_game, winner, g_sound_player1);
+		}
 	}
 	return 0;
 }
