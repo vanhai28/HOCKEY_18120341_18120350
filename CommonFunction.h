@@ -5,7 +5,7 @@
 #include <string>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
-
+//#include "Button.h"
 
 const int SCREEN_WIDTH = 900;
 const int SCREEN_HEIGHT = 700;
@@ -27,6 +27,4 @@ namespace SDL_CFunction {
 
 	SDL_Surface*   LoadImage(std::string file_path);
 
-	int ShowMenu(SDL_Surface *des, TTF_Font * font);
-	bool CheckFocusWithRect(const int &x, const int &y, const SDL_Rect& rect);
 }
