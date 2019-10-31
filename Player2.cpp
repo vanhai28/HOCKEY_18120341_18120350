@@ -15,15 +15,19 @@ Player2::Player2()
 
 void Player2::HandleInputAction(SDL_Event events)
 {
+	if (!is_move)
+	{
+		return;
+	}
 	if (events.type == SDL_KEYDOWN)
 	{
 		switch (events.key.keysym.sym)
 		{
 		case SDLK_LEFT:
-			x_val -= HEIGHT_PLAYER / 3;
+			x_val -= 15;
 			break;
 		case SDLK_RIGHT:
-			x_val += HEIGHT_PLAYER / 3;;
+			x_val += 15;
 			break;
 		default:
 			break;
@@ -44,6 +48,7 @@ Player2::~Player2()
 }
 void Player2::HandleMove()
 {
+	SDL_Delay(10);
 	if (is_move)
 	{
 		rect_.x += x_val;
