@@ -3,9 +3,9 @@
 #include "Player.h"
 #include <SDL_mixer.h>
 
-#define WIDTH_BALL 40
-#define HEIGHT_BALL 31
-#define MAX_SPEED 10
+#define WIDTH_BALL 15
+#define HEIGHT_BALL 15
+#define MAX_SPEED 50
 //-------------------static variable---------------
 static Mix_Chunk* g_sound_player1 = NULL;
 static Mix_Chunk* win = NULL;
@@ -15,7 +15,7 @@ static Mix_Chunk* win = NULL;
 class Ball : public   BaseObject
 {
 public:
-	void HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish, int &win,Mix_Chunk*& bullet_sound);
+	void HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish, int &win,Mix_Chunk*& bullet_sound, int & mark);
 
 	int Get_x_val() { return x_val; }
 	void Set_x_val(int val) { x_val = val; }
