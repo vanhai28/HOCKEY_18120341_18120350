@@ -8,7 +8,6 @@ public:
 	BaseObject();
 	~BaseObject();
 
-
 	bool LoadImg(const char* file_name);
 	void show(SDL_Surface* des);
 
