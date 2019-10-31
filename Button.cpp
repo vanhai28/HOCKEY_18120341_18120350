@@ -11,9 +11,10 @@ bool Button::CheckFocusWithRect(const int &x, const int &y, const SDL_Rect& rect
 }
 
 
-void Button::UpdateColorButton(SDL_Event _event, SDL_Surface *des)
+void Button::UpdateColorButton(SDL_Event& _event, SDL_Surface * &des)
 {
-	TTF_Font* font = TTF_OpenFont("comic.ttf", 60);
+
+	TTF_Font* font = TTF_OpenFont("comic.ttf", 40);
 
 	int x_mouse = _event.motion.x;
 	int y_mouse = _event.motion.y;
