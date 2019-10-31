@@ -1,6 +1,6 @@
 #include "Ball.h"
 #include <iostream>
-void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish, int& winner, Mix_Chunk*& bullet_sound)
+void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish, int& winner, Mix_Chunk*& bullet_sound, int& mark)
 {
 	
 	if (!is_finish)
@@ -29,6 +29,12 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 			rect_.y -= x_val;
 			x_val *= -1;
 			y_val *= -1;
+			
+			if (y_val < 0 && mark!=- 1)
+			{
+				mark++;
+			}
+
 			Mix_PlayChannel(-1, bullet_sound, 0);
 		}
 		//dinh hai ben thanh truot
@@ -47,6 +53,12 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 				rect_.y = y;
 				rect_.x -= x_val;
 			}
+
+			if (y_val < 0 && mark != -1)
+			{
+				mark++;
+			}
+
 			Mix_PlayChannel(-1, bullet_sound, 0);
 		}
 		else if ((y < playerTop.y + HEIGHT_PLAYER && x + WIDTH_BALL - 2 >= playerTop.x && playerTop.x + WIDTH_PLAYER > x + 2 && y_val < 0)
@@ -54,6 +66,12 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 		{
 			rect_.x = x;
 			y_val *= -1;
+
+			if (y_val < 0 && mark != -1)
+			{
+				mark++;
+			}
+
 			Mix_PlayChannel(-1, bullet_sound, 0);
 		}
 		else if (x + WIDTH_BALL > RIGHT_BOUNDARY || x <= LEFT_BOUNDARY)
