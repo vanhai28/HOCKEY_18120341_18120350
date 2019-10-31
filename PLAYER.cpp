@@ -4,6 +4,7 @@
 
 PLAYER::PLAYER()
 {
+	mark = 0;
 }
 
 
