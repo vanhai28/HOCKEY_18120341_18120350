@@ -1,15 +1,15 @@
-
+﻿
 #include <iostream>
 #include "Player1.h"
 #include "Player2.h"
 #include "AutoPlayer.h"
 #include "Ball.h"
 #include "Button.h"
-
+#include <time.h>
 #undef main
 using namespace std;
 
-//------------------- GLOBAL VARIABLE -------------
+//-------------------Khai báo biến toàn cục-------------
 TTF_Font * g_font_text = NULL;
 bool is_quit = false;
 BaseObject win1, win2;
@@ -18,7 +18,6 @@ Player1 player1;
 Player2 player2;
 Button back_button;
 AutoPlayer autoPlayer;
-
 PLAYER * player = &autoPlayer;
 TextObject markP1;
 TextObject markP2;
@@ -27,7 +26,9 @@ int ret_menu = 0;
 Ball ball;
 bool is_finish_game = false;
 int winner = 0;
-//------------------------------------------------
+Mix_Music *music = NULL;
+
+//------------------Khai báo các hàm ------------------------------
 void showWinner(SDL_Surface*& screen);
 bool Init();
 bool startGame();
@@ -36,8 +37,7 @@ void restartGame();
 void ExitGame();
 void BackMenu(int &);
 int ThreadGame(void * a);
-Mix_Music *music = NULL;
-
+//----------------------------------------------------------------
 
 int main()
 {
@@ -50,11 +50,13 @@ int main()
 	{
 		return 0;
 	}
+
 	if (Mix_PlayingMusic() == 0)
 	{
 		//Play the music
 		Mix_PlayMusic(music, -1);
 	}
+
 	ret_menu = ShowMenu(g_screen, g_font_text);
 
 	if (ret_menu == 2)
@@ -63,27 +65,25 @@ int main()
 	}
 	if (ret_menu == 0)
 	{
-		g_bkground = SDL_CFunction::LoadImage("Bkground.png");
+		g_bkground = SDL_CFunction::LoadImage("Photo\\Bkground.png");
 		player = &player1;
 		mark = -1;
 	}
-	SDL_Thread* thread0;
+
+	SDL_Thread* ThreadBall;
 	bool isClick = false;
 	int * value = NULL;
-	thread0 = SDL_CreateThread(ThreadGame, NULL);
+	ThreadBall = SDL_CreateThread(ThreadGame, NULL);
 	ball.Set_is_move(true);
-
 	TTF_Font *mark_font = TTF_OpenFont("comic.ttf", 70);
 
 	while (!is_quit)
 	{
-		
 		SDL_CFunction::ApplySurface(g_bkground, g_screen, 0, 0);
 
 		if (1 == ret_menu)
 		{
 			markP1.SetText(to_string(mark));
-
 		}
 
 		markP1.creatText(mark_font, g_screen);
@@ -106,12 +106,14 @@ int main()
 
 				if (isClick)
 				{
+					// Quay lai menu
 					BackMenu(ret_menu);
 				}
 				break;
 			}
 			case SDL_QUIT:
 			{
+				//Thoat
 				is_quit = true;
 				break;
 			}
@@ -127,7 +129,6 @@ int main()
 
 		player2.HandleMove();
 		player2.show(g_screen);
-
 
 		ball.show(g_screen);
 
@@ -147,26 +148,30 @@ int main()
 				if (mark > temp) {
 					markP2.SetText(to_string(mark));
 				}
-				else mark = 0;
+				else
+				{
+					mark = 0;
+				}
 			}
 
 			pause_game(g_screen, ret_menu);
-
-			is_finish_game = false;
 		}
 
 		if (SDL_Flip(g_screen) == -1) {
 			return 0;
 		}
 	}
-
-	SDL_WaitThread(thread0, value);
+	SDL_KillThread(ThreadBall);
 	TTF_CloseFont(mark_font);
 	ExitGame();
 
 	return 0;
 }
 
+// Tên hàm 	: Init
+// Mô tả	: Khởi tạo các giá trị ban đầu
+// Kiểu trả về  : bool : true nếu tất cả quá trình khởi tạo thành công
+//						 false : nếu có bất cứ lỗi nào phát sinh
 bool Init()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
@@ -174,30 +179,31 @@ bool Init()
 			SDL_GetError() << endl;
 		return false;
 	}
-	SDL_WM_SetCaption("HOCKEY", "icon");
 
+	SDL_WM_SetCaption("HOCKEY", "icon");
 	g_screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_HWSURFACE | SDL_SWSURFACE | SDL_DOUBLEBUF);
 
 	if (g_screen == NULL) {
 		return false;
 	}
-	//Initialize the truetype font API.
+	//Khởi động font API
 	if (TTF_Init() < 0)
 	{
 		cout << "Loi khoi tao TTF:" << TTF_GetError();
 		return false;
 	}
 
+	// Khởi tạo để tải âm thanh
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		return false;
 	}
 
-	g_sound_player1 = Mix_LoadWAV("palyer2.wav");
-	win = Mix_LoadWAV("winSound.wav");
+	//----Khởi gán các giá trị ban đầu-------------
 
-	music = Mix_LoadMUS("Vexento - We Are One (Original).mp3");
-
+	g_sound_player1 = Mix_LoadWAV("Music\\palyer2.wav");
+	win = Mix_LoadWAV("Music\\winSound.wav");
+	music = Mix_LoadMUS("Music\\Vexento - We Are One (Original).mp3");
 
 	if (g_sound_player1 == NULL || music == NULL || win == NULL)
 	{
@@ -212,77 +218,88 @@ bool Init()
 	markP2.SetColor(TextObject::RED_TEXT);
 	markP2.SetRect(750, 200);
 	markP2.SetText("0");
-
-
+	//-----------------------------------------------
 
 	return true;
 }
 
+// Tên hàm 	: startGame
+// Mô tả	: Khởi gán các biến cần thiết cho chương trình
+// Kiểu trả về  : bool 
 bool startGame()
 {
 	bool checkLoadImg = false;
-	win1.SetRect(100, 100);
 
-	checkLoadImg = win1.LoadImg("player1win.png");
+	//---------Khởi gán và tải các hình ảnh cần thiết-----------
+	win1.SetRect(50, 100);
+	checkLoadImg = win1.LoadImg("Photo\\player1win.png");
 	if (checkLoadImg == false) {
 		return false;
 	}
 
-	win2.SetRect(100, 100);
-
-	checkLoadImg = win2.LoadImg("player2win.png");
+	win2.SetRect(50, 100);
+	checkLoadImg = win2.LoadImg("Photo\\player2win.png");
 	if (checkLoadImg == false) {
 		return false;
 	}
 
 	ball.SetRect(400, 300);
-	checkLoadImg = ball.LoadImg("Ball.png");
+	checkLoadImg = ball.LoadImg("Photo\\Ball.png");
 
 	if (checkLoadImg == false) {
 		return false;
 	}
 
 	player1.SetRect(X_PLAYER, Y_PLAYER);
-	checkLoadImg = player1.LoadImg("player1.png");
+	checkLoadImg = player1.LoadImg("Photo\\player1.png");
 
 	if (checkLoadImg == false) {
 		return false;
 	}
 
 	player2.SetRect(X_PLAYER_2, Y_PLAYER_2);
-
-	checkLoadImg = player2.LoadImg("player2.png");
+	checkLoadImg = player2.LoadImg("Photo\\player2.png");
 
 	if (checkLoadImg == false) {
 		return false;
 	}
+
 	autoPlayer.SetRect(X_PLAYER, Y_PLAYER);
-
-	checkLoadImg = autoPlayer.LoadImg("player1.png");
+	checkLoadImg = autoPlayer.LoadImg("Photo\\player1.png");
 
 	if (checkLoadImg == false) {
 		return false;
 	}
 
-	g_bkground = SDL_CFunction::LoadImage("Bkground2.png");
+	//-------Tải hình nền ----------------------------
+	g_bkground = SDL_CFunction::LoadImage("Photo\\Bkground2.png");
 	if (g_bkground == NULL) {
 		return false;
 	}
+
+	//----------Khởi tạo fone chữ -------------------
 	g_font_text = TTF_OpenFont("comic.ttf", 40);
 	if (g_font_text == NULL)
 	{
 		return false;
 	}
 
-	back_button.SetRect(600, 600, 100, 60);
+	//----------Khởi tạo vị trí nút back ------------
+	back_button.SetRect(730, 620, 100, 60);
 	back_button.SetText("Back");
 
 	return true;
 }
 
+//-----------------------------------------------------------------------------------
+// Tên hàm 	: pause_game
+// Mô tả	: Dừng trò chơi và chờ thao tác của ngươi chơi khi kết thúc một lượt chơi
+// Kiểu trả về  : void
+// Tham số SDL_Surface*& screen : Biến trỏ đến cửa sổ người chơi
+// Tham số int& mode : Chế độ chơi (chơi với máy hay 2 người chơi )
 void pause_game(SDL_Surface*& screen, int& mode)
 {
-
+	//-------- Dừng di chuyển thanh trượt và quả bóng --------
 	ball.Set_is_move(false);
 	player->SetIsMove(false);
 	player2.SetIsMove(false);
@@ -314,21 +331,23 @@ void pause_game(SDL_Surface*& screen, int& mode)
 			}
 			case SDL_QUIT:
 			{
+				// Thoat
 				is_quit = true;
-				break;
+				return;
 			}
 			case SDL_KEYDOWN:
 			{
 				switch (g_event.key.keysym.sym)
 				{
-
 				case SDLK_ESCAPE:
 				{
+					// Thoat
 					is_quit = true;
 					return;
 				}
-				case SDLK_BACKSPACE:
+				case SDLK_SPACE:
 				{
+					//Chơi lại
 					is_finish_game = false;
 					restartGame();
 					return;
@@ -341,13 +360,19 @@ void pause_game(SDL_Surface*& screen, int& mode)
 }
 
 
+// Tên hàm 	: showWinner
+// Mô tả	:  Thông báo người chơi chiến thắng
+// Kiểu trả về : void 
+// Tham số SDL_Surface*& screen : Biến trỏ đến cửa sổ chương trình
 void showWinner(SDL_Surface*& screen)
 {
-	if (winner == 1) {
+	if (winner == 1)// Người chơi 1 thắng
+	{
 		player->SetMark(player->GetMark() + 1);
 		win1.show(screen);
 	}
-	else {
+	else // Người chơi 2 thắng
+	{
 		player2.SetMark(player2.GetMark() + 1);
 		win2.show(screen);
 	}
@@ -357,32 +382,50 @@ void showWinner(SDL_Surface*& screen)
 }
 
 
+
+// Tên hàm 	: restartGame
+// Mô tả	: Khởi gán lại các giá trị ban đầu 
+// Kiểu trả về  : void
 void restartGame()
 {
 	player2.SetRect(X_PLAYER_2, Y_PLAYER_2);
-	player1.SetRect(X_PLAYER, Y_PLAYER);
+	player->SetRect(X_PLAYER, Y_PLAYER);
+	
 
-	ball.SetRect(400, 300);
-	ball.Set_x_val(3);
-	ball.Set_y_val(3);
+	ball.SetRect(250, 350);
+	// Tạo giá trị ngẫu nhiên cho x_val
+	srand(time_t(0));
+	int x = 0;
+
+	do {
+		x = rand() % 7 - 3;
+		ball.Set_x_val(x);
+		ball.Set_y_val(x);
+	} while (x == 0);
 
 	ball.Set_is_move(true);
-	player->SetIsMove(true);
+	player1.SetIsMove(true);
 	player2.SetIsMove(true);
 
 	if (1 == ret_menu)
 	{
-		g_bkground = SDL_CFunction::LoadImage("Bkground2.png");
+		g_bkground = SDL_CFunction::LoadImage("Photo\\Bkground2.png");
 		mark = 0;
 	}
 	else
 	{
-		g_bkground = SDL_CFunction::LoadImage("Bkground.png");
+		g_bkground = SDL_CFunction::LoadImage("Photo\\Bkground.png");
 		mark = -1;
 	}
+	is_finish_game = false;
 }
 
 
+
+// Tên hàm 	: ThreadGame
+// Mô tả	: Sử dụng khi tạo một thread khác cho đối tượng bóng
+// Kiểu trả về  : int
+// Tham số void *a : Đặt cho đúng cú pháp câu lệnh, thực tế biến này không được sử dụng
 int ThreadGame(void *a)
 {
 	while (!is_quit)
@@ -397,6 +440,10 @@ int ThreadGame(void *a)
 }
 
 
+
+// Tên hàm 	: ExitGame
+// Mô tả	: Đóng các khởi tạo ban đầu, thu hồi bộ nhớ
+// Kiểu trả về  : void
 void ExitGame()
 {
 	SDL_CFunction::CleanUp();
@@ -404,16 +451,20 @@ void ExitGame()
 	TTF_Quit();
 
 	TTF_CloseFont(g_font_text);
-	
-
 	Mix_FreeChunk(g_sound_player1);
 	Mix_FreeChunk(win);
 	Mix_FreeMusic(music);
 	Mix_Quit();
-	exit(1);
+
+	return;
 }
 
 
+
+// Tên hàm 	: BackMenu
+// Mô tả	: Quay lại màn hình menu
+// Kiểu trả về  : void
+// Tham số int& old_mod : Chế độ chơi cũ, dùng để xác định khi người chơi chọn chế độ chơi mới 
 void BackMenu(int& old_mod)
 {
 	ball.Set_is_move(false);
@@ -422,14 +473,17 @@ void BackMenu(int& old_mod)
 
 	if (old_mod == mode_play)
 	{
-		// continue game
+		// tiếp túc chế độ chơi cũ
 	}
 	else if (mode_play == 2)
 	{
+		//Thoat chương trình
 		is_quit = true;
 	}
 	else
 	{
+		//---------- Chọn chế độ chơi mới ----------
+		// Đặt lại điểm người chơi
 		player->SetMark(0);
 		player2.SetMark(0);
 
@@ -439,7 +493,6 @@ void BackMenu(int& old_mod)
 		if (mode_play == 0) {
 			old_mod = mode_play;
 			player = &player1;
-
 			restartGame();
 		}
 		else {
@@ -451,5 +504,7 @@ void BackMenu(int& old_mod)
 		ret_menu = mode_play;
 	}
 
+	back_button.SetColor(TextObject::BLACK_TEXT);
+	//Bật trạng thái cho quả bóng chạy
 	ball.Set_is_move(true);
 }
