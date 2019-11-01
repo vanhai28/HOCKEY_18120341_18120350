@@ -12,15 +12,25 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 		{
 			is_finish = true;
 			winner = 2;
-			win = Mix_LoadWAV("winSound.wav");
+			win = Mix_LoadWAV("Music\\winSound.wav");
 			Mix_PlayChannel(-1, win, 0);
+	
 		}
 		else if (rect_.y + HEIGHT_BALL >= BOTTOM_BOUNDRY)
 		{
 			is_finish = true;
 			winner = 1;
-			win = Mix_LoadWAV("winSound.wav");
-			Mix_PlayChannel(-1, win, 0);
+			if (mark != -1)
+			{
+				win = Mix_LoadWAV("Music\\lose.wav");
+				Mix_PlayChannel(-1, win, 0);
+			}
+			else
+			{
+				win = Mix_LoadWAV("Music\\winSound.wav");
+				Mix_PlayChannel(-1, win, 0);
+			}
+		
 		}
 		else if ((y <= playerTop.y + HEIGHT_PLAYER && playerTop.y + HEIGHT_PLAYER / 2 < y && ((x + WIDTH_BALL / 2 <= playerTop.x && playerTop.x < x + WIDTH_BALL && x_val > 0) || (x <= playerTop.x + WIDTH_PLAYER && playerTop.x + WIDTH_PLAYER <= x + WIDTH_BALL / 2 && x_val < 0))
 			|| (y + HEIGHT_BALL >= playerButtom.y && playerButtom.y > y + HEIGHT_BALL / 2 && ((x + WIDTH_BALL / 2 <= playerButtom.x && playerButtom.x < x + WIDTH_BALL && x_val > 0) || (x <= playerButtom.x + WIDTH_PLAYER && playerButtom.x + WIDTH_PLAYER <= x + WIDTH_BALL / 2 && x_val < 0)))))
