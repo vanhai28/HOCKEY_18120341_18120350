@@ -2,12 +2,7 @@
 #include "CommonFunction.h"
 #include"TextObject.h"
 #include "Button.h"
-/*
- * Function:
- * ----------------------------------
- *	Free memory
 
- */
 void SDL_CFunction::CleanUp()
 {
 	SDL_FreeSurface(g_screen);
@@ -15,16 +10,7 @@ void SDL_CFunction::CleanUp()
 	SDL_FreeSurface(g_img_menu);
 }
 
-/*
- * Function: ApplySurface
- * ----------------------------
- *	 Apply the source of surface to detination of surface
- *
- *	 scr: a pointer point to source of Surface
- *   des : a pointer point to destination of Surface
- *
- *   Return : Tọa độ của biến đích
- */
+
 SDL_Rect SDL_CFunction::ApplySurface(SDL_Surface* scr, SDL_Surface* des, int x, int y)
 {
 	SDL_Rect offset;
@@ -35,14 +21,7 @@ SDL_Rect SDL_CFunction::ApplySurface(SDL_Surface* scr, SDL_Surface* des, int x, 
 	return offset;
 }
 
-/*
- * Function:LoadImage
- * ----------------------------------
- *	Load the file of image
- *	file_path: the path to file on the computer including the name of the file
- *
- *   Return an SDL_Surface pointer point to the surface of the image
- */
+
 SDL_Surface*  SDL_CFunction::LoadImage(std::string file_path) {
 	SDL_Surface* load_image = NULL;
 	SDL_Surface *optimize_image = NULL;
@@ -60,7 +39,7 @@ SDL_Surface*  SDL_CFunction::LoadImage(std::string file_path) {
 
 int ShowMenu(SDL_Surface *des, TTF_Font * font)
 {
-	g_img_menu = IMG_Load("menu.png");
+	g_img_menu = IMG_Load("Photo\\menu.png");
 
 	if (g_img_menu == NULL)
 	{
@@ -90,7 +69,6 @@ int ShowMenu(SDL_Surface *des, TTF_Font * font)
 
 	for (int i = 0; i < kMenuItemNum; i++)
 	{
-		//button[i].SetColor(TextObject::RED_TEXT);
 		button[i].creatText(font, des);
 	}
 
@@ -123,7 +101,7 @@ int ShowMenu(SDL_Surface *des, TTF_Font * font)
 					{
 						if (i == 1)
 						{
-							g_bkground = SDL_CFunction::LoadImage("Bkground2.png");
+							g_bkground = SDL_CFunction::LoadImage("Photo\\Bkground2.png");
 						}
 						return i;
 					}
