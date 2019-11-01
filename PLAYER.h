@@ -1,24 +1,45 @@
+﻿// Mô tả : Là lớp cơ sở cho các lớp người chơi khác
+// Ngày cập nhật : 01/11/2019
+
 #pragma once
 #include "BaseObject.h"
 
-const int  X_PLAYER = RIGHT_BOUNDARY / 2;
-const int  Y_PLAYER = 20;
-
 #define WIDTH_PLAYER 120
 #define HEIGHT_PLAYER 15
+
+const int  X_PLAYER = RIGHT_BOUNDARY / 2 - WIDTH_PLAYER /2 ;
+const int  Y_PLAYER = 20;
+
 class PLAYER :public BaseObject
 {
 public:
-	virtual void HandleInputAction(SDL_Event events) = 0;
-	virtual void HandleMove() = 0;
-	virtual void PredictDropPoint(SDL_Rect, int, int) = 0;
 
+	// Tên hàm 	: HandleInputAction
+	// Mô tả	: Là hàm ảo, Xác định hướng di chuyển của thanh trượt
+	// Kiểu trả về  : void
+	// Tham số SDL_Event events : Nhận sự kiện vào từ chuột hoặc bàn phím
+	virtual void HandleInputAction(SDL_Event events) = 0;
+
+	// Tên hàm 	: HandleMove
+	// Mô tả : Thay đổi vị trí thanh trượt
+	// Kiểu trả về : void
+	virtual void HandleMove() = 0;
+
+	// Tên hàm 	: PredictDropPoint
+	// Mô tả	: Hàm ảo, dự đoán vị trí rơi của bóng, sử dụng cho người chơi là máy tính.
+	// Kiểu trả về : void
+	// Tham số SDL_Rect ball: Tọa độ của quả bóng
+	// Tham số int x_val_ball : Khoảng cách di chuyển của bóng theo trục x
+	// Tham số int y_val_ball : Khoảng cách di chuyển của bóng theo trục y
+	virtual void PredictDropPoint(SDL_Rect ball, int x_val_ball, int y_val_ball) = 0;
+
+	//-------------- Các hàm GETTER -SETTER -----------------
 	bool GetIsMove() { return is_move; }
 	void SetIsMove(bool val) { is_move = val; }
 
 	int GetMark() { return mark; }
 	void SetMark(int val) { mark = val; }
-
+	//------------------------------------------------------
 	PLAYER();
 	~PLAYER();
 
@@ -27,6 +48,6 @@ protected :
 	bool is_move;
 	int x_val;
 	int y_val;
-	int mark;
+	int mark;//Ðiểm của nguời chơi
 };
 
