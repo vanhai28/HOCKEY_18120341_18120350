@@ -35,7 +35,7 @@ void Button::UpdateColorButton(SDL_Event& _event, SDL_Surface * &des)
 	}
 
 	TTF_CloseFont(font);
-	return ;
+	return;
 }
 
 Button::Button()
