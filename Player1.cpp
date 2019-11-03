@@ -29,6 +29,7 @@ void Player1::HandleInputAction(SDL_Event events)
 		return;
 	}
 
+
 	if (events.type == SDL_KEYDOWN) 
 	{
 		switch (events.key.keysym.sym)
@@ -37,7 +38,7 @@ void Player1::HandleInputAction(SDL_Event events)
 			x_val -= 15;
 			break;
 		case SDLK_e:
-			x_val += 15;;
+			x_val += 15;
 			break;
 		default:
 			break;
@@ -53,6 +54,7 @@ void Player1::HandleInputAction(SDL_Event events)
 void Player1::HandleMove()
 {
 	SDL_Delay(10);
+
 	if (is_move)
 	{
 		rect_.x += x_val;
@@ -61,6 +63,7 @@ void Player1::HandleMove()
 			rect_.x -= x_val;
 		}
 	}
-	
+
 }
+
 
