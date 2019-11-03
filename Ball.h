@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "Player.h"
+#include "BasePlayer.h"
 #include <SDL_mixer.h>
 
 #define WIDTH_BALL 15
@@ -18,7 +18,7 @@ static Mix_Chunk* win = NULL;
 class Ball : public   BaseObject
 {
 public:
-	
+
 	// Tên hàm 	: HandleMove
 	// Mô tả	: Di chuyển vị trí quả bóng
 	// Kiểu trả về  : void
@@ -51,4 +51,3 @@ private:
 	int x_val;
 	int y_val;
 };
-
