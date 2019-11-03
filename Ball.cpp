@@ -2,7 +2,7 @@
 #include <iostream>
 void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish, int& winner, Mix_Chunk*& bullet_sound, int& mark)
 {
-	
+
 	if (!is_finish)
 	{
 		int x = rect_.x + x_val;
@@ -14,7 +14,7 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 			winner = 2;
 			win = Mix_LoadWAV("Music\\winSound.wav");
 			Mix_PlayChannel(-1, win, 0);
-	
+
 		}
 		else if (rect_.y + HEIGHT_BALL >= BOTTOM_BOUNDRY)
 		{
@@ -30,7 +30,7 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 				win = Mix_LoadWAV("Music\\winSound.wav");
 				Mix_PlayChannel(-1, win, 0);
 			}
-		
+
 		}
 		else if ((y <= playerTop.y + HEIGHT_PLAYER && playerTop.y + HEIGHT_PLAYER / 2 < y && ((x + WIDTH_BALL / 2 <= playerTop.x && playerTop.x < x + WIDTH_BALL && x_val > 0) || (x <= playerTop.x + WIDTH_PLAYER && playerTop.x + WIDTH_PLAYER <= x + WIDTH_BALL / 2 && x_val < 0))
 			|| (y + HEIGHT_BALL >= playerButtom.y && playerButtom.y > y + HEIGHT_BALL / 2 && ((x + WIDTH_BALL / 2 <= playerButtom.x && playerButtom.x < x + WIDTH_BALL && x_val > 0) || (x <= playerButtom.x + WIDTH_PLAYER && playerButtom.x + WIDTH_PLAYER <= x + WIDTH_BALL / 2 && x_val < 0)))))
@@ -39,8 +39,8 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 			rect_.y -= x_val;
 			x_val *= -1;
 			y_val *= -1;
-			
-			if (y_val < 0 && mark!=- 1)
+
+			if (y_val < 0 && mark != -1)
 			{
 				mark++;
 			}
@@ -105,7 +105,7 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 				x_val--;
 			}
 		}
-		
+
 		if (abs(y_val) < MAX_SPEED)
 		{
 			if (y_val > 0) {
@@ -116,7 +116,7 @@ void Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish
 			}
 		}
 
-	
+
 	}
 }
 
