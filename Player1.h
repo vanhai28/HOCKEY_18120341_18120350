@@ -3,9 +3,9 @@
 
 #pragma once
 #include <SDL_mixer.h>
-#include "PLAYER.h"
+#include "BasePlayer.h"
 
-class Player1 : public PLAYER
+class Player1 : public BasePlayer
 {
 public:
 	Player1();
@@ -19,4 +19,6 @@ public:
 
 	//----------------------------------------------------------------
 };
+
+
 
