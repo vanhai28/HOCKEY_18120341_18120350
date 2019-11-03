@@ -21,7 +21,7 @@ public:
 	std::string GetText() { return str_val_; }
 	void SetText(const std::string text) { str_val_ = text; }
 
-	SDL_Color GetColor() {return text_color;}
+	SDL_Color GetColor() { return text_color; }
 	void SetColor(const int &type);
 	//--------------------------------------------------
 
