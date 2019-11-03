@@ -49,9 +49,9 @@ namespace SDL_CFunction {
 	SDL_Surface* LoadImage(std::string file_path);
 }
 
-	// Tên hàm 	: ShowMenu
-	// Mô tả	: Hiển thị cửa sổ menu
-	// Kiểu trả về  : int, xác định chức năng người chơi chọn
-	// Tham số SDL_Surface *des : Biến đích (thường là màn hình)
-	// Tham số TTF_Font * font : Font chữ hiển thị
+// Tên hàm 	: ShowMenu
+// Mô tả	: Hiển thị cửa sổ menu
+// Kiểu trả về  : int, xác định chức năng người chơi chọn
+// Tham số SDL_Surface *des : Biến đích (thường là màn hình)
+// Tham số TTF_Font * font : Font chữ hiển thị
 int ShowMenu(SDL_Surface *des, TTF_Font * font);
