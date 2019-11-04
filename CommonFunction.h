@@ -1,6 +1,4 @@
-﻿// Mô tả: Các hàm, biến dùng chung cho các lớp khác 
-// Ngày cập nhật : 01/11/2019
-
+﻿
 #pragma once
 #include <windows.h>
 #include <SDL_image.h>
@@ -18,10 +16,6 @@ const int TOP_BOUNDARY = 5;
 const int BOTTOM_BOUNDRY = SCREEN_HEIGHT - 5;
 
 
-static SDL_Surface * g_screen = NULL;
-static SDL_Surface * g_bkground = NULL;
-static SDL_Surface* g_img_menu = NULL;
-static SDL_Event g_event;
 
 namespace SDL_CFunction {
 
@@ -54,4 +48,4 @@ namespace SDL_CFunction {
 // Kiểu trả về  : int, xác định chức năng người chơi chọn
 // Tham số SDL_Surface *des : Biến đích (thường là màn hình)
 // Tham số TTF_Font * font : Font chữ hiển thị
-int ShowMenu(SDL_Surface *des, TTF_Font * font);
+int ShowMenu(SDL_Surface * g_img_menu,SDL_Surface *des, TTF_Font * font);
