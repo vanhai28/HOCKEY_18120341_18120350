@@ -1,13 +1,11 @@
-﻿// Mô tả : Định nghĩa lớp người chơi thứ hai
-// Ngày cập nhật : 01/11/2019
-
+﻿
 #pragma once
-#include "BasePlayer.h"
+#include "PLAYER.h"
 
 const int  X_PLAYER_2 = RIGHT_BOUNDARY / 2 - WIDTH_PLAYER / 2;
 const int  Y_PLAYER_2 = SCREEN_HEIGHT - 30;
 
-class Player2 : public BasePlayer
+class Player2 : public PLAYER
 {
 public:
 	Player2();
@@ -23,4 +21,3 @@ public:
 	//----------------------------------------------------------------
 
 };
-
