@@ -1,7 +1,4 @@
-﻿// Mô tả : Định nghĩa lớp button
-// Ngày cập nhật : 01/11/2019
-
-
+﻿
 #pragma once
 #include "TextObject.h"
 class Button : public TextObject
@@ -13,7 +10,7 @@ public:
 	// Kiểu trả về  : void 
 	// Tham số SDL_Event& _event : Sự kiện nhận vào từ chuột
 	// Tham số SDL_Surface *& des : Đối tượng đích để hiển thị lên, thường là cửa sổ người chơi.
-	void UpdateColorButton(SDL_Event& _event, SDL_Surface *& des);
+	void UpdateColorButton(TTF_Font *font, SDL_Event& _event, SDL_Surface *& des);
 
 	// Tên hàm 	: CheckFocusWithRect
 	// Mô tả	: Kiểm tra xem con trỏ chuột có di chuyển đến vị trí nút (button )
@@ -26,4 +23,3 @@ public:
 	Button();
 	~Button();
 };
-
