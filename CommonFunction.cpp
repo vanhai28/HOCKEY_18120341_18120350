@@ -5,9 +5,7 @@
 
 void SDL_CFunction::CleanUp()
 {
-	SDL_FreeSurface(g_screen);
-	SDL_FreeSurface(g_bkground);
-	SDL_FreeSurface(g_img_menu);
+	
 }
 
 
@@ -37,10 +35,8 @@ SDL_Surface*  SDL_CFunction::LoadImage(std::string file_path) {
 	return optimize_image;
 }
 
-int ShowMenu(SDL_Surface *des, TTF_Font * font)
+int ShowMenu(SDL_Surface * g_img_menu,SDL_Surface *des, TTF_Font * font)
 {
-	g_img_menu = IMG_Load("Photo\\menu.png");
-
 	if (g_img_menu == NULL)
 	{
 		return 2;
@@ -86,7 +82,7 @@ int ShowMenu(SDL_Surface *des, TTF_Font * font)
 			{
 				for (int i = 0; i < kMenuItemNum; i++)
 				{
-					button[i].UpdateColorButton(m_event, des);
+					button[i].UpdateColorButton(font,m_event, des);
 				}
 				break;
 			}
@@ -99,10 +95,6 @@ int ShowMenu(SDL_Surface *des, TTF_Font * font)
 
 					if (isClick)
 					{
-						if (i == 1)
-						{
-							g_bkground = SDL_CFunction::LoadImage("Photo\\Bkground2.png");
-						}
 						return i;
 					}
 				}
