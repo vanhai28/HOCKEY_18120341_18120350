@@ -12,6 +12,7 @@ BaseObject::BaseObject()
 
 BaseObject::~BaseObject()
 {
+	
 }
 
 bool BaseObject::LoadImg(const char* file_name) {
