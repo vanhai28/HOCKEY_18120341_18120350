@@ -8,7 +8,7 @@
 #define HEIGHT_PLAYER 15
 
 //Vị trí ban đầu của thanh trượt
-const int  X_PLAYER = RIGHT_BOUNDARY / 2 - WIDTH_PLAYER / 2;
+const int  X_PLAYER = RIGHT_BOUNDARY / 2 - WIDTH_PLAYER /2 ;
 const int  Y_PLAYER = 20;
 
 class BasePlayer :public BaseObject
@@ -45,7 +45,7 @@ public:
 	~BasePlayer();
 
 
-protected:
+protected :
 	//Trạng thái của thanh trượt 
 	bool is_move;
 	//Giá trị x thay đổi mỗi khi người chơi nhấn nút di chuyển
