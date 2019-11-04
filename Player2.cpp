@@ -59,4 +59,3 @@ void Player2::HandleMove()
 	}
 
 }
-
