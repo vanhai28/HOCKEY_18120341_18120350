@@ -2,15 +2,9 @@
 
 
 
-TextObject::TextObject()
-{
-}
+TextObject::TextObject(){}
 
-
-TextObject::~TextObject()
-{
-
-}
+TextObject::~TextObject(){}
 
 void TextObject::SetColor(const int & type)
 {
@@ -32,8 +26,9 @@ void TextObject::SetColor(const int & type)
 	text_color = color;
 }
 
-void TextObject::creatText(TTF_Font * font, SDL_Surface *des)
+void TextObject::displayText(TTF_Font * font, SDL_Surface *des)
 {
 	p_object_ = TTF_RenderText_Solid(font, str_val_.c_str(), text_color);
 	show(des);
+	SDL_FreeSurface(p_object_);
 }
