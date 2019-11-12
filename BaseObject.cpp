@@ -10,10 +10,7 @@ BaseObject::BaseObject()
 }
 
 
-BaseObject::~BaseObject()
-{
-	
-}
+BaseObject::~BaseObject(){}
 
 bool BaseObject::LoadImg(const char* file_name) {
 	p_object_ = SDL_CFunction::LoadImage(file_name);
