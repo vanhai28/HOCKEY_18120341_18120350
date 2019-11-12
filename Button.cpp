@@ -22,12 +22,12 @@ void Button::UpdateColorButton(TTF_Font *font,SDL_Event& _event, SDL_Surface * &
 		if (CheckFocusWithRect(x_mouse, y_mouse, this->GetRect()))
 		{
 			this->SetColor(TextObject::RED_TEXT);
-			this->creatText(font, des);
+			this->displayText(font, des);
 		}
 		else
 		{
 			this->SetColor(TextObject::WHITE_TEXT);
-			this->creatText(font, des);
+			this->displayText(font, des);
 		}
 	}
 	return;
