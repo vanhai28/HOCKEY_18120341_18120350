@@ -16,7 +16,8 @@ Player1::Player1()
 
 Player1::~Player1()
 {
-	if (p_object_ != NULL) {
+	if (p_object_ != NULL) 
+	{
 		SDL_FreeSurface(p_object_);
 		p_object_ = NULL;
 	}
@@ -43,7 +44,8 @@ void Player1::HandleInputAction(SDL_Event events)
 			break;
 		}//end switch
 	}
-	else if (events.type == SDL_KEYUP) {
+	else if (events.type == SDL_KEYUP) 
+	{
 		x_val = 0;
 		y_val = 0;
 	}//end if
