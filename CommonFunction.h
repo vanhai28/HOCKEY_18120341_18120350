@@ -20,12 +20,6 @@ const int BOTTOM_BOUNDRY = SCREEN_HEIGHT - 5;
 namespace SDL_CFunction {
 
 	//-------------------------------------------------------------
-	// Tên hàm 	: CleanUp
-	// Mô tả	: Giải phóng bộ nhớ các con trỏ sử dụng
-	// Kiểu trả về : void
-	void   CleanUp();
-
-	//-------------------------------------------------------------
 	// Tên hàm     : ApplySurface
 	// Mô tả	   : Ðặt SDL_Surface nguồn vào SDL_SurFace dích (thường là màn hình)
 	// Kiểu trả về : SDL_Rect
@@ -46,6 +40,7 @@ namespace SDL_CFunction {
 // Tên hàm 	: ShowMenu
 // Mô tả	: Hiển thị cửa sổ menu
 // Kiểu trả về  : int, xác định chức năng người chơi chọn
+// Tham số SDL_Surface * g_img_menu : Chứa hình ảnh nền menu đã được tải lên 
 // Tham số SDL_Surface *des : Biến đích (thường là màn hình)
 // Tham số TTF_Font * font : Font chữ hiển thị
-int ShowMenu(SDL_Surface * g_img_menu,SDL_Surface *des, TTF_Font * font);
+int ShowMenu(SDL_Surface * g_img_menu, SDL_Surface *des, TTF_Font * font);
