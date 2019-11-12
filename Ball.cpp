@@ -1,4 +1,4 @@
-#include "Ball.h"
+﻿#include "Ball.h"
 #include <iostream>
 int Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish, Mix_Chunk* sound[3], int& mark)
 {
@@ -11,6 +11,7 @@ int Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish,
 	int x = rect_.x + x_val;
 	int y = rect_.y + y_val;
 
+	//Xử lí khi quả bóng chạm biên trên hoặc dưới
 	if (rect_.y <= TOP_BOUNDARY)
 	{
 		speed = 0;
@@ -33,6 +34,7 @@ int Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish,
 			Mix_PlayChannel(-1, sound[0], 0);
 		}
 	}
+	//Xử lí điều kiện khi quả bóng chạm vào hai bên góc thanh trượt, quả bóng dội ngược lại hướng ban đầu
 	else if ((y <= playerTop.y + HEIGHT_PLAYER && playerTop.y + HEIGHT_PLAYER / 2 < y && ((x + WIDTH_BALL / 2 <= playerTop.x && playerTop.x < x + WIDTH_BALL && x_val > 0) || (x <= playerTop.x + WIDTH_PLAYER && playerTop.x + WIDTH_PLAYER <= x + WIDTH_BALL / 2 && x_val < 0))
 		|| (y + HEIGHT_BALL >= playerButtom.y && playerButtom.y > y + HEIGHT_BALL / 2 && ((x + WIDTH_BALL / 2 <= playerButtom.x && playerButtom.x < x + WIDTH_BALL && x_val > 0) || (x <= playerButtom.x + WIDTH_PLAYER && playerButtom.x + WIDTH_PLAYER <= x + WIDTH_BALL / 2 && x_val < 0)))))
 	{
@@ -53,7 +55,7 @@ int Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish,
 
 		Mix_PlayChannel(-1, sound[2], 0);
 	}
-	//dinh hai ben thanh truot
+	//Xử lí điều kiện khi quả bóng chạm vào hai bên thanh trượt
 	else if ((y < playerTop.y + HEIGHT_PLAYER && ((x + WIDTH_BALL >= playerTop.x && playerTop.x >= x + WIDTH_BALL - 3 && x_val > 0) || (x + 3 >= playerTop.x + WIDTH_PLAYER && playerTop.x + WIDTH_PLAYER >= x && x_val < 0))
 		|| (y + HEIGHT_BALL > playerButtom.y && ((x + WIDTH_BALL >= playerButtom.x && playerButtom.x >= x + WIDTH_BALL - 3 && x_val > 0) || (x + 3 >= playerButtom.x + WIDTH_PLAYER && playerButtom.x + WIDTH_PLAYER > x && x_val < 0)))))
 	{
@@ -81,7 +83,7 @@ int Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish,
 		}
 
 		Mix_PlayChannel(-1, sound[2], 0);
-	}
+	}//Xử lí quả bóng chạm ở giữa thanh trượt
 	else if ((y < playerTop.y + HEIGHT_PLAYER && x + WIDTH_BALL - 2 >= playerTop.x && playerTop.x + WIDTH_PLAYER > x + 2 && y_val < 0)
 		|| (y + HEIGHT_BALL > playerButtom.y && x + WIDTH_BALL - 2 >= playerButtom.x && playerButtom.x + WIDTH_PLAYER > x + 2 && y_val > 0))
 	{
@@ -99,7 +101,7 @@ int Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish,
 		}
 
 		Mix_PlayChannel(-1, sound[2], 0);
-	}
+	}//Xử lí quả bóng chạm hai biên bên
 	else if (x + WIDTH_BALL > RIGHT_BOUNDARY || x <= LEFT_BOUNDARY)
 	{
 		rect_.y = y;
@@ -119,7 +121,7 @@ int Ball::HandleMove(SDL_Rect playerTop, SDL_Rect playerButtom, bool &is_finish,
 
 Ball::Ball()
 {
-	speed = 0;
+	speed = 5;
 	is_move = false;
 	x_val = 2;
 	y_val = 2;
