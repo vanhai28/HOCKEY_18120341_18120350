@@ -1,4 +1,5 @@
-﻿
+﻿// Mô tả : Là lớp cơ sở chứa các hàm cơ bản dùng trong các đối tượng được xây dựng trong chương trình
+// Ngày cập nhật : 01/11/2019
 #pragma once
 #include <SDL.h>
 #include "CommonFunction.h"
