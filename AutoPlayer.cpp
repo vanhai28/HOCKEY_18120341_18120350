@@ -23,6 +23,7 @@ void AutoPlayer::PredictDropPoint(SDL_Rect ball, int x_val_ball, int y_val_ball)
 	{
 		return;
 	}
+
 	int x = ball.x;
 	int y = ball.y;
 
