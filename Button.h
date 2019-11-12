@@ -6,8 +6,9 @@ class Button : public TextObject
 public:
 
 	// Tên hàm 	: UpdateColorButton
-	// Mô tả	: Cập nhật lại màu hiển thị của text khi người chơi di chuyển chuột 
+	// Mô tả	: Cập nhật lại màu chữ của nút được hiển thị khi người chơi di chuyển chuột 
 	// Kiểu trả về  : void 
+	// Tham số TTF_Font *font : Con trỏ font chỉ đến font chữ được truyền vào
 	// Tham số SDL_Event& _event : Sự kiện nhận vào từ chuột
 	// Tham số SDL_Surface *& des : Đối tượng đích để hiển thị lên, thường là cửa sổ người chơi.
 	void UpdateColorButton(TTF_Font *font, SDL_Event& _event, SDL_Surface *& des);
