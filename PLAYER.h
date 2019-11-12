@@ -1,14 +1,10 @@
-﻿// Mô tả : Là lớp cơ sở cho các lớp người chơi khác
-// Ngày cập nhật : 01/11/2019
-
+﻿
 #pragma once
 #include "BaseObject.h"
 
 #define WIDTH_PLAYER 120
 #define HEIGHT_PLAYER 15
 
-const int  X_PLAYER = RIGHT_BOUNDARY / 2 - WIDTH_PLAYER /2 ;
-const int  Y_PLAYER = 20;
 
 class PLAYER :public BaseObject
 {
@@ -40,14 +36,13 @@ public:
 	int GetMark() { return mark; }
 	void SetMark(int val) { mark = val; }
 	//------------------------------------------------------
-	PLAYER();
-	~PLAYER();
+	PLAYER() {};
+	~PLAYER() {};
 
 
-protected :
+protected:
 	bool is_move;
 	int x_val;
 	int y_val;
 	int mark;//Ðiểm của nguời chơi
 };
-
