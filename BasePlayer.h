@@ -1,4 +1,4 @@
-﻿// Mô tả : Là lớp cơ sở cho các lớp người chơi khác
+﻿// Mô tả : Là lớp cơ sở cho các lớp người chơi khác, khai báo các hàm ảo sẽ được sử dụng trong các lớp người chơi khác
 // Ngày cập nhật : 01/11/2019
 
 #pragma once
@@ -30,9 +30,9 @@ public:
 	// Mô tả	: Hàm ảo, dự đoán vị trí rơi của bóng, sử dụng cho người chơi là máy tính.
 	// Kiểu trả về : void
 	// Tham số SDL_Rect ball: Tọa độ của quả bóng
-	// Tham số int x_val_ball : Khoảng cách di chuyển của bóng theo trục x
-	// Tham số int y_val_ball : Khoảng cách di chuyển của bóng theo trục y
-	virtual void PredictDropPoint(SDL_Rect ball, int x_val_ball, int y_val_ball) = 0;
+	// Tham số int x_val_ball : step di chuyển của bóng theo trục x
+	// Tham số int y_val_ball : step di chuyển của bóng theo trục y
+	virtual void PredictDropPoint(SDL_Rect ball, int x_val_ball, int y_val_ball) {};
 
 	//-------------- Các hàm GETTER -SETTER -----------------
 	bool GetIsMove() { return is_move; }
