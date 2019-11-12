@@ -6,6 +6,7 @@
 #include "Ball.h"
 #include "Button.h"
 #include "BasePlayer.h"
+#include <random>
 #include <time.h>
 #undef main
 using namespace std;
@@ -97,10 +98,10 @@ int main()
 			markP1.SetText(to_string(mark));
 		}
 
-		markP1.creatText(g_font_text, g_screen);
-		markP2.creatText(g_font_text, g_screen);
+		markP1.displayText(g_font_text, g_screen);
+		markP2.displayText(g_font_text, g_screen);
 
-		back_button.creatText(g_font_menu, g_screen);
+		back_button.displayText(g_font_menu, g_screen);
 
 		while (SDL_PollEvent(&g_event))
 		{
@@ -409,24 +410,28 @@ void showWinner(SDL_Surface*& screen)
 // Kiểu trả về  : void
 void restartGame()
 {
+	//khởi tại lại vị trí ban đầu của thanh trượt và bóng
 	player2.SetRect(X_PLAYER_2, Y_PLAYER_2);
 	player->SetRect(X_PLAYER, Y_PLAYER);
-	
 	ball.SetRect(250, 350);
-	// Tạo giá trị ngẫu nhiên cho x_val
-	srand(time_t(0));
-	int x = 0;
 
+	// Tạo giá trị ngẫu nhiên cho x_val và y_val
+	int x = 0, y = 0;
+	std::random_device random_device;
+	std::mt19937 random_engine(random_device());
+	std::uniform_int_distribution<int> distribution(-5, 0);
+	
 	do {
-		x = rand() % 7 - 3;
+		x = distribution(random_engine);
+		y = distribution(random_engine);
 		ball.Set_x_val(x);
-		ball.Set_y_val(x);
-	} while (x == 0);
+		ball.Set_y_val(y);
+	} while (x == 0 || y == 0);
 
 	ball.Set_is_move(true);
 	player1.SetIsMove(true);
 	player2.SetIsMove(true);
-
+	mark = 0;
 	
 	is_finish_game = false;
 }
