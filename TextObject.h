@@ -1,7 +1,4 @@
-﻿// Mô tả : Định nghĩa lớp TextObject, hiển thị kí tự lên màn hình
-// Ngày cập nhật : 01/11/2019
-
-#pragma once
+﻿#pragma once
 #include "BaseObject.h"
 #include <string>
 
@@ -25,15 +22,14 @@ public:
 	void SetColor(const int &type);
 	//--------------------------------------------------
 
-	// Tên hàm 	: creatText
+	// Tên hàm 	: displayText
 	// Mô tả	: hiển thị chữ lên màn hình
 	// Kiểu trả về  : void 
 	// Tham số TTF_Font *font: Font chữ hiển thị
 	// Tham số SDL_Surface* des : đối tượng đích sẽ hiển thị lên, thường là cửa sổ người chơi
-	void creatText(TTF_Font *font, SDL_Surface* des);
+	void displayText(TTF_Font *font, SDL_Surface* des);
 
 private:
 	std::string str_val_;
 	SDL_Color text_color;
 };
-
