@@ -1,4 +1,5 @@
-﻿
+﻿// Mô tả : định nghĩa lớp người chơi 1
+// Ngày cập nhật : 01/11/2019
 #pragma once
 #include <SDL_mixer.h>
 #include "BasePlayer.h"
@@ -13,8 +14,6 @@ public:
 	void HandleInputAction(SDL_Event events);
 
 	void  HandleMove();
-
-	void PredictDropPoint(SDL_Rect a, int b, int c) {};
 
 	//----------------------------------------------------------------
 };
