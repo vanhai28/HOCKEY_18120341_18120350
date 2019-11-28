@@ -37,7 +37,7 @@ SDL_Surface * g_bkground_1 = NULL;
 SDL_Surface * g_bkground = NULL;
 SDL_Surface* g_img_menu = NULL;
 SDL_Event g_event;
-
+bool isAddMark = false;
 //------------------Khai báo các hàm ------------------------------
 void showWinner(SDL_Surface*& screen);
 bool Init();
@@ -152,12 +152,13 @@ int main()
 		{
 			showWinner(g_screen);
 
-			if (ret_menu == 0)
+			if (ret_menu == 0 && !isAddMark)
 			{
 				markP1.SetText(to_string(player1.GetMark()));
 				markP2.SetText(to_string(player2.GetMark()));
+				isAddMark = true;
 			}
-			else
+			else if(ret_menu != 0)
 			{
 				int temp = stoi(markP2.GetText());
 
@@ -434,6 +435,7 @@ void restartGame()
 	mark = 0;
 	
 	is_finish_game = false;
+	isAddMark = false;
 }
 
 
